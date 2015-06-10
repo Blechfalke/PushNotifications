@@ -48,7 +48,10 @@ public class GCMIntentService extends GCMBaseIntentService {
             if (!isAppInForeground) {
                 if ((extras.getString(MESSAGE) != null && extras.getString(MESSAGE).length() != 0) || 
 					(extras.getString(ALERT) != null && extras.getString(ALERT).length() != 0)) {
+					Log.d(TAG, "Creating Notification now");	
                     createNotification(context, extras);
+                } else {
+					Log.d(TAG, "Will not create Notification with empty Message/Alert");
                 }
             }
 
@@ -74,6 +77,7 @@ public class GCMIntentService extends GCMBaseIntentService {
             try {
                 defaults = Integer.parseInt(extras.getString("defaults"));
             } catch (NumberFormatException e) {
+				Log.d(TAG, "NumberFormatException");
             }
         }
 
@@ -87,7 +91,12 @@ public class GCMIntentService extends GCMBaseIntentService {
                         .setContentIntent(contentIntent)
                         .setAutoCancel(true);
 
-        String message = extras.getString("message");
+		String message;
+		if (extras.getString("message") == null)
+			message = extras.getString("alert");
+		else
+			message = extras.getString("message");
+		
         if (message != null) {
             mBuilder.setContentText(message);
         } else {
