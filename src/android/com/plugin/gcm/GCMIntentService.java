@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import java.util.Iterator;
+import java.util.Set;
 
 @SuppressLint("NewApi")
 public class GCMIntentService extends GCMBaseIntentService {
@@ -43,7 +45,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
         Bundle extras = intent.getExtras();
         if (extras != null) {
-
+			dumpExtras(extras);
             // If in background, create notification to display in notification center
             if (!isAppInForeground) {
                 if ((extras.getString(MESSAGE) != null && extras.getString(MESSAGE).length() != 0) || 
@@ -59,6 +61,17 @@ public class GCMIntentService extends GCMBaseIntentService {
         }
     }
 
+	public void dumpExtras(Bundle bundle){
+		Set<String> keys = bundle.keySet();
+		Iterator<String> it = keys.iterator();
+		Log.d(TAG, "Dumping Extras Start");
+		while (it.hasNext()){
+			String key = it.next();
+			Log.d(TAG, "[" + key + "=" + bundle.get(key) + "]");
+		}
+		Log.d(TAG, "Dumping Extras End");
+	}
+	
     public void createNotification(Context context, Bundle extras) {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(
                 Context.NOTIFICATION_SERVICE);
