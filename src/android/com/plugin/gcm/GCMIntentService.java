@@ -22,7 +22,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     private static String TAG = "PushPlugin-GCMIntentService";
 
     public static final String MESSAGE = "message";
-    public static final String ALERT = "alert";
+    public static final String DATA = "data";
 
     public GCMIntentService() {
         super("GCMIntentService");
@@ -49,7 +49,7 @@ public class GCMIntentService extends GCMBaseIntentService {
             // If in background, create notification to display in notification center
             if (!isAppInForeground) {
                 if ((extras.getString(MESSAGE) != null && extras.getString(MESSAGE).length() != 0) || 
-					(extras.getString(ALERT) != null && extras.getString(ALERT).length() != 0)) {
+					(extras.getString(DATA) != null && extras.getString(DATA).length() != 0)) {
 					Log.d(TAG, "Creating Notification now");	
                     createNotification(context, extras);
                 } else {
@@ -105,10 +105,10 @@ public class GCMIntentService extends GCMBaseIntentService {
                         .setAutoCancel(true);
 
 		String message;
-		if (extras.getString("message") == null)
-			message = extras.getString("alert");
+		if (extras.getString(MESSAGE) == null)
+			message = extras.getString(DATA);
 		else
-			message = extras.getString("message");
+			message = extras.getString(MESSAGE);
 		
         if (message != null) {
             mBuilder.setContentText(message);
