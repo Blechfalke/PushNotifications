@@ -20,6 +20,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     private static String TAG = "PushPlugin-GCMIntentService";
 
     public static final String MESSAGE = "message";
+    public static final String ALERT = "alert";
 
     public GCMIntentService() {
         super("GCMIntentService");
@@ -45,7 +46,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 
             // If in background, create notification to display in notification center
             if (!isAppInForeground) {
-                if (extras.getString(MESSAGE) != null && extras.getString(MESSAGE).length() != 0) {
+                if ((extras.getString(MESSAGE) != null && extras.getString(MESSAGE).length() != 0) || 
+					(extras.getString(ALERT) != null && extras.getString(ALERT).length() != 0)) {
                     createNotification(context, extras);
                 }
             }
