@@ -14,6 +14,7 @@ import android.util.Log;
 import java.util.Iterator;
 import java.util.Set;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 @SuppressLint("NewApi")
 public class GCMIntentService extends GCMBaseIntentService {
@@ -24,6 +25,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     public static final String MESSAGE = "message";
     public static final String DATA = "data";
+    public static final String ALERT = "alert";
 
     public GCMIntentService() {
         super("GCMIntentService");
@@ -105,15 +107,16 @@ public class GCMIntentService extends GCMBaseIntentService {
                         .setContentIntent(contentIntent)
                         .setAutoCancel(true);
 
-		[data={"alert":"test","push_hash":"098f6bcd4621d373cade4e832627b4f6"}]
-
-
 		String message;
-		if (!(extras.getString(DATA) == null))
-			JSONObject jsonObj = new JSONObject(extras.getString(DATA));
-            if (jsonObj.has(ALERT))
-				message = jsonObj.getString(ALERT);
-		else if (!(extras.getString(MESSAGE) == null))
+		if (!(extras.getString(DATA) == null)){
+			try {
+				JSONObject jsonObj = new JSONObject(extras.getString(DATA));
+	            if (jsonObj.has(ALERT))
+					message = jsonObj.getString(ALERT);
+	        } catch (JSONException e) {
+	            Log.e(TAG, "extrasToJSON: JSON exception");
+	        }
+		} else if (!(extras.getString(MESSAGE) == null))
 			message = extras.getString(MESSAGE);
 		
         if (message != null) {
