@@ -104,13 +104,19 @@ public class GCMIntentService extends GCMBaseIntentService {
                         .setContentIntent(contentIntent)
                         .setAutoCancel(true);
 
+		[data={"alert":"test","push_hash":"098f6bcd4621d373cade4e832627b4f6"}]
+
+
 		String message;
-		if (extras.getString(MESSAGE) == null)
-			message = extras.getString(DATA);
-		else
+		if (!(extras.getString(DATA) == null))
+			JSONObject jsonObj = new JSONObject(extras.getString(DATA));
+            if (jsonObj.has(ALERT))
+				message = jsonObj.getString(ALERT);
+		else if (!(extras.getString(MESSAGE) == null))
 			message = extras.getString(MESSAGE);
 		
         if (message != null) {
+			mBuilder.setContentTitle(appName)
             mBuilder.setContentText(message);
         } else {
             mBuilder.setContentText("<missing message content>");
