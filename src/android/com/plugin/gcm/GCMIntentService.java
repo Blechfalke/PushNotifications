@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import java.util.Iterator;
 import java.util.Set;
+import org.json.JSONObject;
 
 @SuppressLint("NewApi")
 public class GCMIntentService extends GCMBaseIntentService {
