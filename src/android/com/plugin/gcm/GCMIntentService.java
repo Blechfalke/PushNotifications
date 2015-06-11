@@ -107,7 +107,7 @@ public class GCMIntentService extends GCMBaseIntentService {
                         .setContentIntent(contentIntent)
                         .setAutoCancel(true);
 
-		String message;
+		String message = null;
 		if (!(extras.getString(DATA) == null)){
 			try {
 				JSONObject jsonObj = new JSONObject(extras.getString(DATA));
