@@ -120,7 +120,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			message = extras.getString(MESSAGE);
 		
         if (message != null) {
-			mBuilder.setContentTitle(appName)
+			mBuilder.setContentTitle(appName);
             mBuilder.setContentText(message);
         } else {
             mBuilder.setContentText("<missing message content>");
